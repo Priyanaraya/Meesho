@@ -1,0 +1,89 @@
+.banner3 img{
+    height: 150px;
+    width: 150px;
+    border: 2px solid rgba(0, 0, 0, 0.297);
+    border-radius: 25px;
+}
+.Parentbanner3{
+    background-image: url(Assets/bg.jpg);
+    width: 1300px;
+    height: 600px;
+    position: relative;
+    left: 100px;
+    top: 100px;
+    display: flex;
+    
+}
+
+
+.Parentbanner3 .childbanner3{
+    background-color: white;
+    border-radius: 25px;
+    height: 400px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.Parentbanner3 .content-banner{
+    width: 70%;
+    display: flex;
+    gap: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Parentbanner3 .content-banner span{
+    background-color: rgba(247, 211, 8, 0.9);
+    display: block;
+    width: 180px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    position: relative;
+    top: 18px;
+    left: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+.Parentbanner3 .headname{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100%;
+    position: relative;
+    top: 230px;
+    left: 40px;
+}
+
+.Parentbanner3 .headname h2{
+font-size: 80px;
+color: white;
+
+-webkit-text-stroke: 1px rgba(255, 217, 0, 0.66); 
+
+}
+.Parentbanner3 .headname button{
+    width: 180px;
+    height: 50px;
+    outline: none;
+    background-color: ;
+    border-radius: 25px;
+   
+}
+.Parentbanner3 .headname button a{
+    color: white;
+    
+    font-size: 30px;
+    font-weight: bold;
+    -webkit-text-stroke: 1px rgba(255, 217, 0, 0.66); 
+}
+.Parentbanner4{
+    margin-top: 80px;
+}
