@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-1">
+        <h2>Product Cart</h2>
+
+    <select id="categoryFilter">
+        <option value="All">All Categories</option>
+        <option value="Women\'s Clothing">Women\'s Clothing</option>
+        <option value="Footwear">Footwear</option>
+        <option value="Accessories">Accessories</option>
+        <option value="Electronics">Electronics</option>
+    </select>
+
+    <div class="container-1">
+        <aside class="sidebar">
+            <h3>Filters</h3>
+            <input type="text" placeholder="Search" class="search-box">
+            <ul>
+                <li><input type="checkbox"> Women T-shirts</li>
+                <li><input type="checkbox"> Women Tops And Tunics</li>
+                <li><input type="checkbox"> Analog Watches</li>
+                <li><input type="checkbox"> Bangles & Bracelets</li>
+            </ul>
+        </aside>
+        <div class="container">
+            <div class="header">
+              <h1>Meesho Products</h1>
+              <button class="cart-btn" id="cartButton">
+                Cart <span class="cart-count" id="cartCount">0</span>
+              </button>
+            </div>
+        
+            <div class="products-grid" id="productsGrid">
+              <!-- Products will be added here by JavaScript -->
+            </div>
+          </div>
+        
+          <div class="cart-overlay" id="cartOverlay">
+            <div class="cart-container">
+              <div class="cart-header">
+                <div class="cart-title">Your Cart (<span id="cartItemsCount">0</span> items)</div>
+                <button class="close-cart" id="closeCart">×</button>
+              </div>
+              <div class="cart-items" id="cartItems">
+                <!-- Cart items will be added here by JavaScript -->
+              </div>
+              <div class="cart-footer">
+                <div class="cart-total">
+                  <span>Subtotal:</span>
+                  <span>₹<span id="cartTotal">0</span></span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+              </div>
+            </div>
+          </div>
+        
+          <script>
+            // Sample product data
+            const products = [
+              {
+                id: 1,
+                name: 'Women Printed Kurti',
+                price: 349,
+                originalPrice: 599,
+                discount: 42,
+                category: 'Fashion',
+              },
+              {
+                id: 2,
+                name: 'Men Cotton T-Shirt',
+                price: 199,
+                originalPrice: 399,
+                discount: 50,
+                category: 'Fashion'
+              },
+              {
+                id: 3,
+                name: 'Kitchen Storage Container Set',
+                price: 249,
+                originalPrice: 499,
+                discount: 50,
+                category: 'Home'
+              },
+              {
+                id: 4,
+                name: 'Wireless Bluetooth Headphones',
+                price: 799,
+                originalPrice: 1299,
+                discount: 38,
+                category: 'Electronics'
+              },
+              {
+                id: 5,
+                name: 'Sports Running Shoes',
+                price: 599,
+                originalPrice: 999,
+                discount: 40,
+                category: 'Footwear'
+              },
+              {
+              id: 6,
+              name: 'Silk Saree',
+              price: 899,
+              originalPrice: 1499,
+              discount: 40,
+              category: 'Fashion'
+            }
+          ];
+      
+          // Cart state
+          let cart = [];
+      
+          // DOM elements
+          const productsGrid = document.getElementById('productsGrid');
+          const cartButton = document.getElementById('cartButton');
+          const cartCount = document.getElementById('cartCount');
+          const cartOverlay = document.getElementById('cartOverlay');
+          const closeCart = document.getElementById('closeCart');
+          const cartItems = document.getElementById('cartItems');
+          const cartItemsCount = document.getElementById('cartItemsCount');
+          const cartTotal = document.getElementById('cartTotal');
+      
+          // Render products
+          function renderProducts() {
+            productsGrid.innerHTML = '';
+            products.forEach(product => {
+              const productCard = document.createElement('div');
+              productCard.className = 'product-card';
+              productCard.innerHTML = `
+        <div class="product-image">Product Image</div>
+        <div class="product-details">
+          <h3 class="product-title">${product.name}</h3>
+          <p class="product-category">${product.category}</p>
+          <div class="product-price">
+            <span class="current-price">₹${product.price}</span>
+            ${product.originalPrice ?`<span class="original-price">₹${product.originalPrice}</span>`: ''}
+            ${product.discount ?`<span class="discount-badge">${product.discount}% OFF</span>` : ''}
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-add" onclick="addToCart(${product.id})">Add to Cart</button>
+            <button class="btn btn-buy" onclick="buyNow(${product.id})">Buy Now</button>
+          </div>
+        </div>`;
+      
+              productsGrid.appendChild(productCard);
+            });
+          }
+      
+          // Add to cart
+          function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+      
+            if (existingItem) {
+              existingItem.quantity += 1;
+            } else {
+              cart.push({ ...product, quantity: 1 });
+            }
+      
+            updateCart();
+          }
+      
+          // Buy now
+          function buyNow(productId) {
+            addToCart(productId);
+            cartOverlay.style.display = 'flex';
+          }
+          // Remove from cart
+          function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+          }
+      
+          // Update quantity
+          function updateQuantity(productId, newQuantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+              if (newQuantity < 1) {
+                removeFromCart(productId);
+              } else {
+                item.quantity = newQuantity;
+              }
+              updateCart();
+            }
+          }
+      
+          // Update cart UI
+          function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            cartItemsCount.textContent = totalItems;
+      
+            // Update cart total
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = subtotal;
+      
+            // Update cart items
+            cartItems.innerHTML = ''
+            if (cart.length === 0) {
+              cartItems.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+            } else {
+              cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                  <div class="cart-item-image"></div>
+                  <div class="cart-item-details">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">₹${item.price}</div>
+                    <div class="cart-item-actions">
+                      <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                      <span class="quantity">${item.quantity}</span>
+                      <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                      <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                  </div>
+                `;
+                cartItems.appendChild(cartItem);
+              });
+            }
+          }
+      
+          // Event listeners
+          cartButton.addEventListener('click', () => {
+            cartOverlay.style.display = 'flex';
+          });
+      
+          closeCart.addEventListener('click', () => {
+            cartOverlay.style.display = 'none';
+          });
+      
+          // Initialize
+          renderProducts();
+          updateCart();
+        </script>
+</body>
+   </html>

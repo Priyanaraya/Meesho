@@ -1,0 +1,20 @@
+.details {
+    background-color: rgb(14, 13, 13);
+    height: 20vh;
+    border: 1px solid black;
+
+}
+.download {
+    /* border: 1px solid black; */
+    /* background-color: rgba(108, 243, 236, 0.466); */
+    text-align: center;
+    display:flex;
+    justify-content:space-evenly;
+    gap: 40px;
+    align-items: center;
+}
+.download li {
+    background-color:white;
+
+
+}
